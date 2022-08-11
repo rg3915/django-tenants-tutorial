@@ -11,5 +11,5 @@ class CustomerAdmin(admin.ModelAdmin):
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('__str__',)
+    list_display = ('__str__', 'cpf', 'occupation')
     search_fields = ('user__first_name', 'user__last_name', 'user__email')

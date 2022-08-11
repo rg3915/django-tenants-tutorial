@@ -15,7 +15,8 @@ class Customer(models.Model):
 
 
 class Employee(models.Model):
-    occupation = models.CharField('cargo', max_length=100, unique=True)
+    occupation = models.CharField('cargo', max_length=30, null=True, blank=True)
+    cpf = models.CharField('CPF', max_length=11, null=True, blank=True)
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,

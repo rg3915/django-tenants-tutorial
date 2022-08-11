@@ -594,7 +594,8 @@ from django.db import models
 
 
 class Employee(models.Model):
-    occupation = models.CharField('cargo', max_length=100, unique=True)
+    occupation = models.CharField('cargo', max_length=30, null=True, blank=True)
+    cpf = models.CharField('CPF', max_length=11, null=True, blank=True)
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
@@ -622,7 +623,7 @@ from .models import Employee
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('__str__',)
+    list_display = ('__str__', 'cpf', 'occupation')
     search_fields = ('user__first_name', 'user__last_name', 'user__email')
 ```
 
@@ -664,6 +665,153 @@ class CustomerAdmin(admin.ModelAdmin):
 
 ## Ao cadastrar o funcionário, cria o usuário e o associa ao funcionário.
 
+
+
+### Cria templates
+
+```
+mkdir -p backend/crm/templates/crm
+touch backend/crm/templates/crm/employee_form.html
+```
+
+```html
+<!-- employee_form.html -->
+<form action="." method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Salvar</button>
+</form>
+```
+
+
+### Edita crm/forms.py
+
+```
+touch backend/crm/forms.py
+```
+
+```python
+# crm/forms.py
+from django import forms
+
+from .models import Employee
+
+
+class EmployeeForm(forms.ModelForm):
+    required_css_class = 'required'
+
+    username = forms.CharField(
+        label='Usuário',
+        max_length=150,
+    )
+    first_name = forms.CharField(
+        label='Nome',
+        max_length=150,
+    )
+    last_name = forms.CharField(
+        label='Sobrenome',
+        max_length=150,
+        required=False,
+    )
+    email = forms.EmailField(
+        label='E-mail',
+        required=False,
+    )
+
+    class Meta:
+        model = Employee
+        fields = (
+            'username',
+            'first_name',
+            'last_name',
+            'email',
+            'occupation',
+            'cpf',
+        )
+```
+
+
+### Edita crm/views.py
+
+```python
+# crm/views.py
+from django.contrib.auth.models import User
+from django.http import HttpResponse
+from django.shortcuts import redirect, render
+
+from .forms import EmployeeForm
+from .models import Employee
+
+
+def create_new_user(form):
+    # Cria o Usuário.
+    user = User.objects.create(
+        username=form.cleaned_data['username'],
+        first_name=form.cleaned_data['first_name'],
+        last_name=form.cleaned_data['last_name'],
+        email=form.cleaned_data['email'],
+    )
+    return user
+
+
+def create_new_employee(form, user):
+    # Cria o Funcionário.
+    Employee.objects.create(
+        occupation=form.cleaned_data['occupation'],
+        cpf=form.cleaned_data['cpf'],
+        user=user,
+    )
+
+
+def employee_create(request):
+    template_name = 'crm/employee_form.html'
+    form = EmployeeForm(request.POST or None)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save(commit=False)
+            user = create_new_user(form)
+            create_new_employee(form, user)
+            # return redirect('crm:employee_list')
+            return HttpResponse('OK')
+
+    context = {'form': form}
+    return render(request, template_name, context)
+```
+
+
+### Edita crm/urls.py
+
+```
+touch backend/crm/urls.py
+```
+
+```python
+# crm/urls.py
+from django.urls import path
+
+from backend.crm import views as v
+
+app_name = 'crm'
+
+
+urlpatterns = [
+    path('employee/create/', v.employee_create, name='employee_create'),
+]
+```
+
+### Edita urls.py
+
+```python
+# urls.py
+from django.contrib import admin
+from django.urls import include, path
+
+urlpatterns = [
+    path('crm/', include('backend.crm.urls')),
+    path('admin/', admin.site.urls),
+]
+```
 
 
 
