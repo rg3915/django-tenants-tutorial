@@ -16,7 +16,7 @@ services:
     ports:
       - 5433:5432  # repare na porta externa 5433
     networks:
-      - dj_tenants
+      - dj-tenants
 
   pgadmin:
     container_name: pgadmin
@@ -31,11 +31,11 @@ services:
     ports:
       - 5050:80
     networks:
-      - dj_tenants
+      - dj-tenants
 
 volumes:
   pgdata:  # mesmo nome do volume externo definido na linha 10
   pgadmin:
 
 networks:
-  dj_tenants:
+  dj-tenants:
