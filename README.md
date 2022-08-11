@@ -53,6 +53,12 @@ pip install -U pip
 pip install Django==4.0.7 django-tenants==3.4.3 django-extensions psycopg2-binary python-decouple
 ```
 
+## Cria o projeto
+
+```
+django-admin startproject backend .
+```
+
 ## Configurando settings.py
 
 ```python
