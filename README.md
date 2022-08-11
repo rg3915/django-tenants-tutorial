@@ -141,6 +141,8 @@ DATABASES = {
 
 ![](img/schema.png)
 
+![](img/models.png)
+
 E acompanhar pelo pgAdmin.
 
 ```
