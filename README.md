@@ -907,8 +907,176 @@ class SaleAdmin(admin.ModelAdmin):
 
 
 
-## App core com o template principal
-    lista: clientes, funcionários e vendas
+## Cria app core com o template principal
+
+lista: clientes, funcionários e vendas
+
+```
+cd backend
+python ../manage.py startapp core
+cd ..
+
+rm -f backend/core/admin.py
+rm -f backend/core/models.py
+rm -f backend/core/tests.py
+
+touch backend/core/urls.py
+```
+
+### Edite settings.py
+
+```python
+# settings.py
+TENANT_APPS = (
+    ...
+    'backend.core',
+    'backend.crm',
+    'backend.sale',
+)```
+
+
+### Edite core/apps.py
+
+```python
+# core/apps.py
+...
+name = 'backend.core'
+```
+
+
+### Edite core/views.py
+
+```python
+# core/views.py
+from django.shortcuts import render
+
+from backend.crm.models import Customer, Employee
+from backend.sale.models import Sale
+
+
+def index(request):
+    template_name = 'index.html'
+    customers = Customer.objects.all()
+    employees = Employee.objects.all()
+    sales = Sale.objects.all()
+    context = {
+        'customers': customers,
+        'employees': employees,
+        'sales': sales,
+    }
+    return render(request, template_name, context)
+```
+
+
+### Edite core/urls.py
+
+```python
+# core/urls.py
+from django.urls import path
+
+from .views import index
+
+app_name = 'core'
+
+
+urlpatterns = [
+    path('', index, name='index'),
+]
+```
+
+
+### Edite urls.py
+
+```python
+# urls.py
+from django.contrib import admin
+from django.urls import include, path
+
+urlpatterns = [
+    path('', include('backend.core.urls')),
+    path('crm/', include('backend.crm.urls')),
+    # path('sale/', include('backend.sale.urls')),
+    path('admin/', admin.site.urls),
+]
+```
+
+
+### Edite base.html
+
+```
+mkdir backend/core/templates
+touch backend/core/templates/base.html
+touch backend/core/templates/index.html
+```
+
+```htmo
+<!-- base.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link rel="shortcut icon" href="http://html5-training-in-hyderabad.blogspot.com.br/favicon.ico">
+    <link rel="shortcut icon" href="https://www.djangoproject.com/favicon.ico">
+    <title>Django Tenant</title>
+
+    <!-- Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  </head>
+  <body>
+
+    <div class="container is-fluid">
+      <div class="notification is-primary">
+        <h1 class="title"><b>{{ request.tenant.name }}</b></h1>
+      </div>
+      {% block content %}{% endblock content %}
+    </div>
+  </body>
+</html>
+```
+
+### Edite index.html
+
+```htmo
+<!-- index.html -->
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="columns">
+    <div class="column">
+      <h1 class="title">
+        <a href="{% url 'crm:customer_list' %}">Clientes</a>
+      </h1>
+      <ul>
+        {% for customer in customers %}
+          <li>{{ customer }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="column">
+      <h1 class="title">
+        <a href="{% url 'crm:employee_list' %}">Funcionários</a>
+      </h1>
+      <ul>
+        {% for employee in employees %}
+          <li>{{ employee }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="column">
+      <h1 class="title">
+        <a href="{% url 'sale:sale_list' %}">Vendas</a>
+      </h1>
+      <ul>
+        {% for sale in sales %}
+          <li>{{ sale }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endblock content %}
+```
 
 
 

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="columns">
+    <div class="column">
+      <h1 class="title">
+        <a href="{ url 'crm:customer_list' %}">Clientes</a>
+      </h1>
+      <ul>
+        {% for customer in customers %}
+          <li>{{ customer }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="column">
+      <h1 class="title">
+        <a href="{ url 'crm:employee_list' %}">Funcionários</a>
+      </h1>
+      <ul>
+        {% for employee in employees %}
+          <li>{{ employee }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="column">
+      <h1 class="title">
+        <a href="{ url 'sale:sale_list' %}">Vendas</a>
+      </h1>
+      <ul>
+        {% for sale in sales %}
+          <li>{{ sale }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endblock content %}

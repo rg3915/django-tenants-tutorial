@@ -57,7 +57,7 @@ TENANT_APPS = (
     'django.contrib.staticfiles',
 
     # your tenant-specific apps
-    # 'backend.core',
+    'backend.core',
     'backend.crm',
     'backend.sale',
 )
