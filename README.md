@@ -1270,3 +1270,52 @@ urlpatterns = [
 ]
 ```
 
+## Adiciona link para cadastrar funcionário
+
+### Edite crm/employee_list.html
+
+```html
+<a href="{% url 'core:index' %}">
+  <small>Voltar</small>
+</a>
+<a class="button is-primary" href="{% url 'crm:employee_create' %}">Adicionar</a>
+```
+
+### Edite crm/employee_form.html
+
+```html
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="columns is-mobile is-centered">
+    <div class="column is-half">
+      <form action="." method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="button is-primary mt-3" type="submit">Salvar</button>
+      </form>
+    </div>
+  </div>
+{% endblock content %}
+```
+
+### Edite crm/forms.py
+
+```python
+class EmployeeForm(forms.ModelForm):
+    ...
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'input mb-3'
+```
+
+### Edite crm/views.py
+
+```python
+def employee_create(request):
+    ...
+    # return HttpResponse('OK')
+    return redirect('crm:employee_list')
+```

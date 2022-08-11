@@ -34,3 +34,8 @@ class EmployeeForm(forms.ModelForm):
             'occupation',
             'cpf',
         )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'input mb-3'

@@ -35,8 +35,8 @@ def employee_create(request):
             form.save(commit=False)
             user = create_new_user(form)
             create_new_employee(form, user)
-            # return redirect('crm:employee_list')
-            return HttpResponse('OK')
+            # return HttpResponse('OK')
+            return redirect('crm:employee_list')
 
     context = {'form': form}
     return render(request, template_name, context)
