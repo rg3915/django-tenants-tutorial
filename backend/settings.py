@@ -59,7 +59,7 @@ TENANT_APPS = (
     # your tenant-specific apps
     # 'backend.core',
     'backend.crm',
-    # 'backend.sale',
+    'backend.sale',
 )
 
 INSTALLED_APPS = list(SHARED_APPS) + \

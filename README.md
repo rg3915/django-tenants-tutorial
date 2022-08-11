@@ -817,6 +817,93 @@ urlpatterns = [
 
 ## App sale com model Sale, com employee(FK)
 
+```
+cd backend
+python ../manage.py startapp sale
+cd ..
+rm -f backend/sale/tests.py
+```
+
+### Edite settings.py
+
+```python
+# settings.py
+TENANT_APPS = (
+    ...
+    'backend.crm',
+    'backend.sale',
+)
+```
+
+### Edite apps.py
+
+```python
+# sale/apps.py
+...
+name = 'backend.sale'
+```
+
+### Edite models.py
+
+```python
+# sale/models.py
+from django.db import models
+
+from backend.crm.models import Customer, Employee
+
+
+class Sale(models.Model):
+    title = models.CharField('título', max_length=30)
+    customer = models.ForeignKey(
+        Customer,
+        on_delete=models.SET_NULL,
+        verbose_name='cliente',
+        related_name='customer_sales',
+        null=True,
+        blank=True
+    )
+    employee = models.ForeignKey(
+        Employee,
+        on_delete=models.SET_NULL,
+        verbose_name='vendedor',
+        related_name='employees_sales',
+        null=True,
+        blank=True
+    )
+    created = models.DateTimeField(
+        'criado em',
+        auto_now_add=True,
+        auto_now=False
+    )
+    modified = models.DateTimeField(
+        'modificado em',
+        auto_now_add=False,
+        auto_now=True
+    )
+
+    class Meta:
+        ordering = ('title',)
+        verbose_name = 'venda'
+        verbose_name_plural = 'vendas'
+
+    def __str__(self):
+        return f'{self.title}'
+```
+
+### Edite admin.py
+
+```python
+# sale/admin.py
+from django.contrib import admin
+
+from backend.sale.models import Sale
+
+
+@admin.register(Sale)
+class SaleAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'customer', 'employee', 'created')
+    search_fields = ('title',)
+```
 
 
 
