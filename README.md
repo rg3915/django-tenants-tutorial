@@ -1190,3 +1190,83 @@ mkdir -p backend/sale/templates/sale
 touch backend/sale/templates/sale/sale_list.html
 ```
 
+### Edite sale/sale_list.html
+
+```python
+<!-- sale/sale_list.html -->
+{% extends "base.html" %}
+
+{% block content %}
+  <h1 class="title">Vendas
+    <a href="{% url 'core:index' %}">
+      <small>Voltar</small>
+    </a>
+  </h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>Data</th>
+        <th>Cliente</th>
+        <th>Funcionário</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for object in object_list %}
+        <tr>
+          <td>{{ object.title }}</td>
+          <td>{{ object.created|date:"d/m/Y" }}</td>
+          <td>{{ object.customer }}</td>
+          <td>{{ object.employee }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock content %}
+```
+
+### Edite sale/urls.py
+
+```python
+# sale/urls.py
+from django.urls import path
+
+from backend.sale import views as v
+
+app_name = 'sale'
+
+
+urlpatterns = [
+    path('', v.sale_list, name='sale_list'),
+]
+```
+
+### Edite sale/views.py
+
+```python
+# sale/views.py
+from django.shortcuts import render
+
+from .models import Sale
+
+
+def sale_list(request):
+    template_name = 'sale/sale_list.html'
+    object_list = Sale.objects.all()
+    context = {'object_list': object_list}
+    return render(request, template_name, context)
+```
+
+
+
+### Edite urls.py
+
+```python
+# urls.py
+urlpatterns = [
+    ...
+    path('sale/', include('backend.sale.urls')),
+    path('admin/', admin.site.urls),
+]
+```
+
