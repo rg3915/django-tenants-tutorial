@@ -626,9 +626,40 @@ class EmployeeAdmin(admin.ModelAdmin):
     search_fields = ('user__first_name', 'user__last_name', 'user__email')
 ```
 
+> Veja no Admin que o crm aparece nos tenants, mas não no público.
 
 
 
+## Cria Customer
+
+### Edite models.py
+
+```python
+# crm/models.py
+class Customer(models.Model):
+    name = models.CharField('nome', max_length=100, unique=True)
+
+    class Meta:
+        ordering = ('name',)
+        verbose_name = 'cliente'
+        verbose_name_plural = 'clientes'
+
+    def __str__(self):
+        return f'{self.name}'
+```
+
+### Edite admin.py
+
+```python
+# crm/admin.py
+from .models import Customer, Employee
+
+
+@admin.register(Customer)
+class CustomerAdmin(admin.ModelAdmin):
+    list_display = ('__str__',)
+    search_fields = ('name',)
+```
 
 
 ## Ao cadastrar o funcionário, cria o usuário e o associa ao funcionário.
@@ -641,17 +672,11 @@ class EmployeeAdmin(admin.ModelAdmin):
 
 
 
-## Configurando Admin
-
-
-
-
 ## App core com o template principal
-
-
-
-
     lista: clientes, funcionários e vendas
+
+
+
 ## App crm com lista de clientes e funcionários
 
 

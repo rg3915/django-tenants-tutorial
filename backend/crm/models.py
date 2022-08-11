@@ -2,6 +2,18 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
+class Customer(models.Model):
+    name = models.CharField('nome', max_length=100, unique=True)
+
+    class Meta:
+        ordering = ('name',)
+        verbose_name = 'cliente'
+        verbose_name_plural = 'clientes'
+
+    def __str__(self):
+        return f'{self.name}'
+
+
 class Employee(models.Model):
     occupation = models.CharField('cargo', max_length=100, unique=True)
     user = models.OneToOneField(
