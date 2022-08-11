@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   database:
-    container_name: sgwc
+    container_name: db
     image: postgres:14-alpine
     restart: always
     user: postgres  # importante definir o usuário
@@ -12,11 +12,11 @@ services:
       - LC_ALL=C.UTF-8
       - POSTGRES_PASSWORD=postgres  # senha padrão
       - POSTGRES_USER=postgres  # usuário padrão
-      - POSTGRES_DB=sgwc  # necessário porque foi configurado assim no settings
+      - POSTGRES_DB=db  # necessário porque foi configurado assim no settings
     ports:
       - 5433:5432  # repare na porta externa 5433
     networks:
-      - dj_tenants
+      - dj-tenants
 
   pgadmin:
     container_name: pgadmin
@@ -31,11 +31,11 @@ services:
     ports:
       - 5050:80
     networks:
-      - dj_tenants
+      - dj-tenants
 
 volumes:
   pgdata:  # mesmo nome do volume externo definido na linha 10
   pgadmin:
 
 networks:
-  dj_tenants:
+  dj-tenants:
