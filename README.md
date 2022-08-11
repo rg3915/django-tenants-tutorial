@@ -32,6 +32,17 @@ python manage.py migrate
 python manage.py createsuperuser --username="admin" --email=""
 ```
 
+Opcionalmente você pode rodar o [Portainer](https://docs.portainer.io/start/install/server/docker)
+
+```
+docker run -d \
+--name myportainer \
+-v /opt/portainer:/data \
+portainer/portainer
+```
+
+
+
 # links
 
 https://django-tenants.readthedocs.io/en/latest/index.html
@@ -121,6 +132,10 @@ DATABASES = {
     }
 }
 ```
+
+## Configurando Tenant
+
+
 
 
 ## Configurando settings.py
