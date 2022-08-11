@@ -7,6 +7,7 @@ Tutorial baseado em https://django-tenants.readthedocs.io/en/latest/index.html
 
 * [Python 3.10.4](https://www.python.org/)
 * [Django 4.0.7](https://www.djangoproject.com/)
+* [django-tenants 3.4.3](https://django-tenants.readthedocs.io/en/latest/)
 * [Bulma CSS](https://bulma.io/)
 
 ## Como rodar o projeto?
@@ -42,7 +43,11 @@ https://youtu.be/TWF7okf5Xoo
 https://youtu.be/IrAz-q5rv3A
 
 
-# Passo a passo da construção
+# Passo a passo para criar do zero
+
+```
+git checkout base
+```
 
 # Parte 1
 
@@ -55,11 +60,13 @@ pip install Django==4.0.7 django-tenants==3.4.3 django-extensions psycopg2-binar
 
 ## Cria o projeto
 
+**Obs:** Na verdade já foi criado na branch.
+
 ```
 django-admin startproject backend .
 ```
 
-Configura o settings.py com o básico
+Configura o settings.py com o básico (já está pronto!).
 
 ```python
 # settings.py
@@ -92,6 +99,8 @@ STATIC_ROOT = BASE_DIR.joinpath('staticfiles')
 
 ### Gera as variáveis de ambiente
 
+Daqui pra baixo precisar implementar...
+
 ```
 python contrib/env_gen.py
 ```
@@ -113,10 +122,10 @@ SHOW_PUBLIC_IF_NO_TENANT_FOUND = True
 ```
 docker-compose up -d  # opcional, usando PostgreSQL no Docker
 
-python manage.py makemigrations
+python manage.py makemigrations            # caso tenha alterações nos models
 python manage.py migrate_schemas --shared
-python manage.py create_tenant
-python manage.py create_tenant_superuser
+python manage.py create_tenant             # Cria um novo tenant
+python manage.py create_tenant_superuser   # Cria um novo super user para o tenant escolhido
 python manage.py migrate_schemas
 
 schema name: acme
@@ -135,6 +144,8 @@ is_primary: True
 Crie esses dois usuários.
 
 stark: Howard Stark, Tony Stark
+
+
 
 ## Acessando o shell_plus para cada tenant
 
