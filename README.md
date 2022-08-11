@@ -932,7 +932,8 @@ TENANT_APPS = (
     'backend.core',
     'backend.crm',
     'backend.sale',
-)```
+)
+```
 
 
 ### Edite core/apps.py
@@ -1009,7 +1010,7 @@ touch backend/core/templates/base.html
 touch backend/core/templates/index.html
 ```
 
-```htmo
+```html
 <!-- base.html -->
 <!DOCTYPE html>
 <html lang="en">
@@ -1038,7 +1039,7 @@ touch backend/core/templates/index.html
 
 ### Edite index.html
 
-```htmo
+```html
 <!-- index.html -->
 {% extends "base.html" %}
 
