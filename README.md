@@ -105,6 +105,22 @@ Daqui pra baixo precisar implementar...
 python contrib/env_gen.py
 ```
 
+## Configura o banco de dados em settings.py
+
+```python
+# settings.py
+DATABASES = {
+    'default': {
+        'ENGINE': 'django_tenants.postgresql_backend',
+        'NAME': config('POSTGRES_DB', 'db'),  # postgres
+        'USER': config('POSTGRES_USER', 'postgres'),
+        'PASSWORD': config('POSTGRES_PASSWORD', 'postgres'),
+        # 'db' caso exista um serviço com esse nome.
+        'HOST': config('DB_HOST', '127.0.0.1'),
+        'PORT': 5433,
+    }
+}
+```
 
 
 ## Configurando settings.py
