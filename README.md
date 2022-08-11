@@ -1082,44 +1082,106 @@ touch backend/core/templates/index.html
 
 ## App crm com lista de clientes e funcionários
 
-
-
-
-## App sale com a lista de vendas
-
-
-
-
-
 ```
-cp backend.urls.py backend.urls_public.py
-```
-
-No template `{{ request.tentant.name }}`
-
-### App core com o template principal
-    lista: clientes, funcionários e vendas
-
-```
-mkdir backend/core/templates
-touch backend/core/templates/index.html
-```
-
-
-
-### App crm com lista de clientes e funcionários
-
-```
-touch backend/crm/urls.py
-
-mkdir -p backend/crm/templates/crm
 touch backend/crm/templates/crm/customer_list.html
 touch backend/crm/templates/crm/employee_list.html
 ```
 
+### Edite customer_list.html
+
+```html
+<!-- customer_list.html -->
+{% extends "base.html" %}
+
+{% block content %}
+  <h1 class="title">Clientes
+    <a href="{% url 'core:index' %}">
+      <small>Voltar</small>
+    </a>
+  </h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nome</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for object in object_list %}
+        <tr>
+          <td>{{ object }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock content %}
+```
 
 
-### App sale com a lista de vendas
+### Edite employee_list.html
+
+```html
+<!-- employee_list.html -->
+{% extends "base.html" %}
+
+{% block content %}
+  <h1 class="title">Funcionários
+    <a href="{% url 'core:index' %}">
+      <small>Voltar</small>
+    </a>
+  </h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nome</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for object in object_list %}
+        <tr>
+          <td>{{ object }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock content %}
+```
+
+### Edite crm/urls.py
+
+```python
+# crm/urls.py
+urlpatterns = [
+    path('customer/', v.customer_list, name='customer_list'),
+    path('employee/', v.employee_list, name='employee_list'),
+    path('employee/create/', v.employee_create, name='employee_create'),
+]
+```
+
+### Edite crm/views.py
+
+```python
+# crm/views.py
+from .models import Customer, Employee
+
+...
+
+def customer_list(request):
+    template_name = 'crm/customer_list.html'
+    object_list = Customer.objects.all()
+    context = {'object_list': object_list}
+    return render(request, template_name, context)
+
+
+def employee_list(request):
+    template_name = 'crm/employee_list.html'
+    object_list = Employee.objects.all()
+    context = {'object_list': object_list}
+    return render(request, template_name, context)
+```
+
+
+
+## App sale com a lista de vendas
 
 ```
 touch backend/sale/urls.py

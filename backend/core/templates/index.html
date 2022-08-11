@@ -4,7 +4,7 @@
   <div class="columns">
     <div class="column">
       <h1 class="title">
-        <a href="{ url 'crm:customer_list' %}">Clientes</a>
+        <a href="{% url 'crm:customer_list' %}">Clientes</a>
       </h1>
       <ul>
         {% for customer in customers %}
@@ -14,7 +14,7 @@
     </div>
     <div class="column">
       <h1 class="title">
-        <a href="{ url 'crm:employee_list' %}">Funcionários</a>
+        <a href="{% url 'crm:employee_list' %}">Funcionários</a>
       </h1>
       <ul>
         {% for employee in employees %}

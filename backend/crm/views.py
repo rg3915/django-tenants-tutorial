@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
 from .forms import EmployeeForm
-from .models import Employee
+from .models import Customer, Employee
 
 
 def create_new_user(form):
@@ -39,4 +39,18 @@ def employee_create(request):
             return HttpResponse('OK')
 
     context = {'form': form}
+    return render(request, template_name, context)
+
+
+def customer_list(request):
+    template_name = 'crm/customer_list.html'
+    object_list = Customer.objects.all()
+    context = {'object_list': object_list}
+    return render(request, template_name, context)
+
+
+def employee_list(request):
+    template_name = 'crm/employee_list.html'
+    object_list = Employee.objects.all()
+    context = {'object_list': object_list}
     return render(request, template_name, context)
