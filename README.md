@@ -441,6 +441,7 @@ from backend.tenant.models import Client
 
 class Company(models.Model):
     name = models.CharField('nome', max_length=100, unique=True)
+    cnpj = models.CharField('CNPJ', max_length=14, unique=True, null=True, blank=True)
     client = models.OneToOneField(
         Client,
         on_delete=models.CASCADE,
@@ -461,7 +462,6 @@ class Company(models.Model):
 
 ```python
 # tenant/admin.py
-
 ...
 
 class CompanyAdmin(admin.ModelAdmin):
@@ -545,8 +545,88 @@ python manage.py migrate
 > Repare que temos Empresa no Admin público, mas não no tenant.
 
 
+### Cadastrando Empresa pelo shell_plus
+
+```python
+python manage.py shell_plus
+
+acme = Client.objects.get(schema_name='acme')
+Company.objects.create(name='Acme Corp.', cnpj='48085893000141', client=acme)
+
+stark = Client.objects.get(schema_name='stark')
+Company.objects.create(name='Stark Industries', cnpj='77863660000120', client=stark)
+```
+
+
 
 ## App crm com model Employee OneToOne(User)
+
+```
+cd backend
+python ../manage.py startapp crm
+cd ..
+rm -f backend/crm/tests.py
+```
+
+### Edite settings.py
+
+```python
+# settings.py
+TENANT_APPS = (
+    ...
+    'backend.crm',
+)
+```
+
+### Edite apps.py
+
+```python
+# crm/apps.py
+
+```
+
+### Edite models.py
+
+```python
+# crm/models.py
+from django.contrib.auth.models import User
+from django.db import models
+
+
+class Employee(models.Model):
+    occupation = models.CharField('cargo', max_length=100, unique=True)
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name='usuário',
+        related_name='employees',
+    )
+
+    class Meta:
+        ordering = ('user__first_name',)
+        verbose_name = 'funcionário'
+        verbose_name_plural = 'funcionários'
+
+    def __str__(self):
+        return f'{self.user.get_full_name()}'
+```
+
+### Edite admin.py
+
+```python
+# crm/admin.py
+from django.contrib import admin
+
+from .models import Employee
+
+
+@admin.register(Employee)
+class EmployeeAdmin(admin.ModelAdmin):
+    list_display = ('__str__',)
+    search_fields = ('user__first_name', 'user__last_name', 'user__email')
+```
+
+
 
 
 

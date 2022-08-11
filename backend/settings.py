@@ -58,7 +58,7 @@ TENANT_APPS = (
 
     # your tenant-specific apps
     # 'backend.core',
-    # 'backend.crm',
+    'backend.crm',
     # 'backend.sale',
 )
 

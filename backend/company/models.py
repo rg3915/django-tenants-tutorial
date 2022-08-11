@@ -5,6 +5,8 @@ from backend.tenant.models import Client
 
 class Company(models.Model):
     name = models.CharField('nome', max_length=100, unique=True)
+    cnpj = models.CharField('CNPJ', max_length=14,
+                            unique=True, null=True, blank=True)
     client = models.OneToOneField(
         Client,
         on_delete=models.CASCADE,
