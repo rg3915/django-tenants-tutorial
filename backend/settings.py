@@ -31,47 +31,16 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())
 
 # Application definition
 
-SHARED_APPS = (
-    'django_tenants',  # mandatory
-    'backend.tenant',  # you must list the app where your tenant model resides in
-    'backend.company',
-
-    # everything below here is optional
+INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    # others apps
-    'django_extensions',
-)
-
-TENANT_APPS = (
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-
-    # your tenant-specific apps
-    # 'backend.core',
-    # 'backend.crm',
-    # 'backend.sale',
-)
-
-INSTALLED_APPS = list(SHARED_APPS) + \
-    [app for app in TENANT_APPS if app not in SHARED_APPS]
-
-TENANT_MODEL = "tenant.Client"  # app.Model
-
-TENANT_DOMAIN_MODEL = "tenant.Domain"  # app.Model
-
+]
 
 MIDDLEWARE = [
-    'django_tenants.middleware.main.TenantMainMiddleware',  # <<<
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -82,10 +51,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'backend.urls'
-
-PUBLIC_SCHEMA_URLCONF = 'backend.urls_public'
-
-SHOW_PUBLIC_IF_NO_TENANT_FOUND = True
 
 TEMPLATES = [
     {
@@ -109,21 +74,13 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django_tenants.postgresql_backend',
-        'NAME': config('POSTGRES_DB', 'db'),  # postgres
-        'USER': config('POSTGRES_USER', 'postgres'),
-        'PASSWORD': config('POSTGRES_PASSWORD', 'postgres'),
-        # 'db' caso exista um serviço com esse nome.
-        'HOST': config('DB_HOST', '127.0.0.1'),
-        'PORT': 5433,
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
-DATABASE_ROUTERS = (
-    'django_tenants.routers.TenantSyncRouter',
-)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
