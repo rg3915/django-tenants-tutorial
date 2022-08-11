@@ -53,6 +53,8 @@ https://youtu.be/TWF7okf5Xoo
 
 https://youtu.be/IrAz-q5rv3A
 
+https://blog.4linux.com.br/schemas-e-namespaces-postgresql-com-django/
+
 
 # Passo a passo para criar do zero
 
