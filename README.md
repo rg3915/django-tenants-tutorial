@@ -59,6 +59,14 @@ https://blog.4linux.com.br/schemas-e-namespaces-postgresql-com-django/
 # Passo a passo para criar do zero
 
 ```
+git clone https://github.com/rg3915/django-tenants-tutorial.git
+cd django-tenants-tutorial
+python -m venv .venv
+source .venv/bin/activate
+python contrib/env_gen.py
+
+docker-compose up -d  # O objetivo é rodar o PostgreSQL
+
 git checkout base
 ```
 
@@ -146,6 +154,8 @@ DATABASES = {
 E acompanhar pelo pgAdmin.
 
 ```
+docker container ls
+
 docker container exec -it db psql
 
 
@@ -178,7 +188,11 @@ DROP SCHEMA my_schema01;
 DROP SCHEMA my_schema02;
 \dn
 
+# Saia do postgres
+
 docker container stop pgadmin
+
+docker container exec -it db psql
 
 \c postgres
 DROP DATABASE test;
@@ -584,7 +598,8 @@ TENANT_APPS = (
 
 ```python
 # crm/apps.py
-
+...
+name = 'backend.crm'
 ```
 
 ### Edite models.py
@@ -815,7 +830,7 @@ urlpatterns = [
 ]
 ```
 
-
+Acesse http://stark.localhost:8000/crm/employee/create/
 
 ## App sale com model Sale, com employee(FK)
 
@@ -907,6 +922,7 @@ class SaleAdmin(admin.ModelAdmin):
     search_fields = ('title',)
 ```
 
+> Acesse as vendas pelo Admin.
 
 
 ## Cria app core com o template principal
@@ -1081,6 +1097,7 @@ touch backend/core/templates/index.html
 {% endblock content %}
 ```
 
+Acesse http://stark.localhost:8000/
 
 
 ## App crm com lista de clientes e funcionários
@@ -1182,6 +1199,7 @@ def employee_list(request):
     return render(request, template_name, context)
 ```
 
+> Arrume os links de index.html.
 
 
 ## App sale com a lista de vendas
