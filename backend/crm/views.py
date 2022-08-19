@@ -1,9 +1,10 @@
 from django.contrib.auth.models import User
-from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from rest_framework import viewsets
 
 from .forms import EmployeeForm
 from .models import Customer, Employee
+from .serializers import CustomerSerializer
 
 
 def create_new_user(form):
@@ -54,3 +55,8 @@ def employee_list(request):
     object_list = Employee.objects.all()
     context = {'object_list': object_list}
     return render(request, template_name, context)
+
+
+class CustomerViewSet(viewsets.ModelViewSet):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer

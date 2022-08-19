@@ -46,6 +46,8 @@ SHARED_APPS = (
 
     # others apps
     'django_extensions',
+    'rest_framework',
+    'dr_scaffold',
 )
 
 TENANT_APPS = (
@@ -117,7 +119,7 @@ DATABASES = {
         'PASSWORD': config('POSTGRES_PASSWORD', 'postgres'),
         # 'db' caso exista um serviço com esse nome.
         'HOST': config('DB_HOST', '127.0.0.1'),
-        'PORT': 5433,
+        'PORT': 5437,
     }
 }
 
