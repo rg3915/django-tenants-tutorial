@@ -1,4 +1,5 @@
 import json
+from django.test import TestCase
 
 from rest_framework import status
 
@@ -6,17 +7,8 @@ from django_tenants.test.cases import TenantTestCase
 from django_tenants.test.client import TenantClient
 
 
-class BaseSetup(TenantTestCase):
-    @staticmethod
-    def get_test_tenant_domain():
-        return 'stark.localhost'
-
-    @staticmethod
-    def get_test_schema_name():
-        return 'stark'
-
+class BaseSetup(TestCase):
     def setUp(self):
-        self.client = TenantClient(self.tenant)
         self.payload = {
             "name": "James Stewart"
         }

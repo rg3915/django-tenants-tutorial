@@ -48,6 +48,10 @@ SHARED_APPS = (
     'django_extensions',
     'rest_framework',
     'dr_scaffold',
+
+    'backend.core',
+    'backend.crm',
+    'backend.sale',
 )
 
 TENANT_APPS = (
