@@ -14,7 +14,7 @@ services:
       - POSTGRES_USER=postgres  # usuário padrão
       - POSTGRES_DB=db  # necessário porque foi configurado assim no settings
     ports:
-      - 5433:5432  # repare na porta externa 5433
+      - 5437:5432  # repare na porta externa 5433
     networks:
       - dj-tenants
 
@@ -29,7 +29,7 @@ services:
       PGADMIN_DEFAULT_PASSWORD: admin
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     ports:
-      - 5050:80
+      - 5057:80
     networks:
       - dj-tenants
 
