@@ -29,6 +29,7 @@ python contrib/env_gen.py
 docker-compose up -d  # O objetivo é rodar o PostgreSQL
 
 python manage.py migrate
+python manage.py test
 python manage.py createsuperuser --username="admin" --email=""
 ```
 
@@ -41,6 +42,13 @@ docker run -d \
 portainer/portainer
 ```
 
+## Mais recursos
+
+* Atualização dos Tipos de Produtos em todos os tentants.
+
+```
+python manage.py update_product_type_on_tentants
+```
 
 
 # links

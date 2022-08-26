@@ -5,5 +5,6 @@ urlpatterns = [
     path('', include('backend.core.urls')),
     path('crm/', include('backend.crm.urls')),
     path('sale/', include('backend.sale.urls')),
+    path('product/', include('backend.product.urls')),
     path('admin/', admin.site.urls),
 ]

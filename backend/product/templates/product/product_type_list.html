@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1 class="title">Tipos de Produtos
+    <a href="{% url 'core:index' %}">
+      <small>Voltar</small>
+    </a>
+  </h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Título</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for object in object_list %}
+        <tr>
+          <td>{{ object }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock content %}

@@ -40,6 +40,7 @@ SHARED_APPS = (
 
     'backend.core',
     'backend.crm',
+    'backend.product',
     'backend.sale',
 )
 
@@ -54,6 +55,7 @@ TENANT_APPS = (
     # your tenant-specific apps
     'backend.core',
     'backend.crm',
+    'backend.product',
     'backend.sale',
 )
 

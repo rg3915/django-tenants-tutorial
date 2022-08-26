@@ -32,5 +32,15 @@
         {% endfor %}
       </ul>
     </div>
+    <div class="column">
+      <h1 class="title">
+        <a href="{% url 'product:product_type_list' %}">Tipos de Produtos</a>
+      </h1>
+      <ul>
+        {% for product in product_types %}
+          <li>{{ product }}</li>
+        {% endfor %}
+      </ul>
+    </div>
   </div>
 {% endblock content %}
