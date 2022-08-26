@@ -2,11 +2,12 @@ from django.urls import include, path
 from rest_framework import routers
 
 from backend.crm import views as v
+from backend.crm.api.viewsets import CustomerViewSet
 
 app_name = 'crm'
 
 router = routers.DefaultRouter()
-router.register(r'customers', v.CustomerViewSet)
+router.register(r'customers', CustomerViewSet)
 
 urlpatterns = [
     path('customer/', v.customer_list, name='customer_list'),
