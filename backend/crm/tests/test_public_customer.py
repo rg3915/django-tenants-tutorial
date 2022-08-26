@@ -1,10 +1,7 @@
 import json
+
 from django.test import TestCase
-
 from rest_framework import status
-
-from django_tenants.test.cases import TenantTestCase
-from django_tenants.test.client import TenantClient
 
 
 class BaseSetup(TestCase):
