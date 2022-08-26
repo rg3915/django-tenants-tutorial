@@ -46,6 +46,8 @@ portainer/portainer
 
 * Atualização dos Tipos de Produtos em todos os tentants.
 
+https://django-tenants.readthedocs.io/en/latest/use.html#running-code-across-every-tenant
+
 ```
 python manage.py update_product_type_on_tentants
 ```
