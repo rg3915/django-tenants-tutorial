@@ -48,9 +48,7 @@ class CompanyAdmin(admin.ModelAdmin):
 
     def has_view_permission(self, request, view=None):
         try:
-            if request.tenant.schema_name == get_public_schema_name():
-                return True
-            return False
+            return request.tenant.schema_name == get_public_schema_name()
         except AttributeError:
             return True
         except Exception as e:
@@ -61,9 +59,7 @@ class CompanyAdmin(admin.ModelAdmin):
 
     def has_change_permission(self, request, view=None):
         try:
-            if request.tenant.schema_name == get_public_schema_name():
-                return True
-            return False
+            return request.tenant.schema_name == get_public_schema_name()
         except AttributeError:
             return True
         except Exception as e:
@@ -74,9 +70,7 @@ class CompanyAdmin(admin.ModelAdmin):
 
     def has_view_or_change_permission(self, request, view=None):
         try:
-            if request.tenant.schema_name == get_public_schema_name():
-                return True
-            return False
+            return request.tenant.schema_name == get_public_schema_name()
         except AttributeError:
             return True
         except Exception as e:
