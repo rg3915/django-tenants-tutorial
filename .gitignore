@@ -136,3 +136,8 @@ staticfiles/
 .ipynb_checkpoints/
 .vscode
 *.cast
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

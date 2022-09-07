@@ -3,3 +3,5 @@ django-extensions==3.2.*
 django-tenants==3.4.3
 psycopg2-binary==2.9.*
 python-decouple==3.6
+djangorestframework==3.13.1
+dr-scaffold==2.1.2

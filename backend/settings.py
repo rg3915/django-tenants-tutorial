@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 from decouple import Csv, config
@@ -21,7 +22,7 @@ DEV = config('DEV', default=False, cast=bool)
 # Application definition
 
 SHARED_APPS = (
-    'django_tenants',  # mandatory
+    # 'django_tenants',  # mandatory
     'backend.tenant',  # you must list the app where your tenant model resides in
     'backend.company',
 
@@ -67,7 +68,7 @@ TENANT_DOMAIN_MODEL = "tenant.Domain"  # app.Model
 
 
 MIDDLEWARE = [
-    'django_tenants.middleware.main.TenantMainMiddleware',  # <<<
+    # 'django_tenants.middleware.main.TenantMainMiddleware',  # <<<
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -107,19 +108,26 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django_tenants.postgresql_backend',
-        'NAME': config('POSTGRES_DB', 'db'),  # postgres
-        'USER': config('POSTGRES_USER', 'postgres'),
-        'PASSWORD': config('POSTGRES_PASSWORD', 'postgres'),
-        # 'db' caso exista um serviço com esse nome.
-        'HOST': config('DB_HOST', '127.0.0.1'),
-        'PORT': 5437,
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
-DATABASE_ROUTERS = (
-    'django_tenants.routers.TenantSyncRouter',
-)
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django_tenants.postgresql_backend',
+#         'NAME': config('POSTGRES_DB', 'db'),  # postgres
+#         'USER': config('POSTGRES_USER', 'postgres'),
+#         'PASSWORD': config('POSTGRES_PASSWORD', 'postgres'),
+#         # 'db' caso exista um serviço com esse nome.
+#         'HOST': config('DB_HOST', '127.0.0.1'),
+#         'PORT': 5437,
+#     }
+# }
+
+# DATABASE_ROUTERS = (
+#     'django_tenants.routers.TenantSyncRouter',
+# )
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
