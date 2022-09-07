@@ -18,6 +18,9 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())
 
 DEV = config('DEV', default=False, cast=bool)
 
+CSRF_TRUSTED_ORIGINS = ['http://*.localhost:8000', 'https://*.localhost:8000']
+CSRF_COOKIE_SECURE = False
+
 # Application definition
 
 SHARED_APPS = (
@@ -69,6 +72,7 @@ TENANT_DOMAIN_MODEL = "tenant.Domain"  # app.Model
 MIDDLEWARE = [
     'django_tenants.middleware.main.TenantMainMiddleware',  # <<<
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -112,8 +116,8 @@ DATABASES = {
         'USER': config('POSTGRES_USER', 'postgres'),
         'PASSWORD': config('POSTGRES_PASSWORD', 'postgres'),
         # 'db' caso exista um serviço com esse nome.
-        'HOST': config('DB_HOST', '127.0.0.1'),
-        'PORT': 5437,
+        'HOST': config('DB_HOST', 'localhost'),
+        'PORT': config('DB_PORT', 5437),
     }
 }
 
