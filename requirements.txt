@@ -1,4 +1,4 @@
-Django==3.2.15
+Django==4.1.*
 django-extensions==3.2.*
 django-tenants==3.4.3
 psycopg2-binary==2.9.*

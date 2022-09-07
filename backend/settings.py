@@ -1,7 +1,6 @@
-import os
 from pathlib import Path
 
-# from decouple import Csv, config
+from decouple import Csv, config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,24 +9,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = config('SECRET_KEY')
-SECRET_KEY = '7^My?4eh&js%NEHpqSD3cgTl0io0aWXn(*U@kQ1K6u)Y$#wbJv'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = config('DEBUG', default=False, cast=bool)
-DEBUG = True
-# DEBUG = os.environ('DEBUG')
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-# ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())
-ALLOWED_HOSTS = os.environ['ALLOWED_HOSTS']
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())
 
-# DEV = config('DEV', default=False, cast=bool)
-DEV = False
+DEV = config('DEV', default=False, cast=bool)
 
 # Application definition
 
 SHARED_APPS = (
-    # 'django_tenants',  # mandatory
+    'django_tenants',  # mandatory
     'backend.tenant',  # you must list the app where your tenant model resides in
     'backend.company',
 
@@ -73,7 +67,7 @@ TENANT_DOMAIN_MODEL = "tenant.Domain"  # app.Model
 
 
 MIDDLEWARE = [
-    # 'django_tenants.middleware.main.TenantMainMiddleware',  # <<<
+    'django_tenants.middleware.main.TenantMainMiddleware',  # <<<
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -111,40 +105,21 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
-if 'RDS_HOSTNAME' in os.environ:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.environ['RDS_DB_NAME'],
-            'USER': os.environ['RDS_USERNAME'],
-            'PASSWORD': os.environ['RDS_PASSWORD'],
-            'HOST': os.environ['RDS_HOSTNAME'],
-            'PORT': os.environ['RDS_PORT'],
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django_tenants.postgresql_backend',
+        'NAME': config('POSTGRES_DB', 'db'),  # postgres
+        'USER': config('POSTGRES_USER', 'postgres'),
+        'PASSWORD': config('POSTGRES_PASSWORD', 'postgres'),
+        # 'db' caso exista um serviço com esse nome.
+        'HOST': config('DB_HOST', '127.0.0.1'),
+        'PORT': 5437,
     }
+}
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django_tenants.postgresql_backend',
-#         'NAME': config('POSTGRES_DB', 'db'),  # postgres
-#         'USER': config('POSTGRES_USER', 'postgres'),
-#         'PASSWORD': config('POSTGRES_PASSWORD', 'postgres'),
-#         # 'db' caso exista um serviço com esse nome.
-#         'HOST': config('DB_HOST', '127.0.0.1'),
-#         'PORT': 5437,
-#     }
-# }
-
-# DATABASE_ROUTERS = (
-#     'django_tenants.routers.TenantSyncRouter',
-# )
+DATABASE_ROUTERS = (
+    'django_tenants.routers.TenantSyncRouter',
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -180,7 +155,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR.joinpath('staticfiles')
 
 # Default primary key field type
