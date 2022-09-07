@@ -19,7 +19,7 @@ DEBUG = True
 # DEBUG = os.environ('DEBUG')
 
 # ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())
-ALLOWED_HOSTS = os.environ('ALLOWED_HOSTS')
+ALLOWED_HOSTS = os.environ['ALLOWED_HOSTS']
 
 # DEV = config('DEV', default=False, cast=bool)
 DEV = False
