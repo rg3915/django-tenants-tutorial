@@ -15,7 +15,8 @@ SECRET_KEY = '7^My?4eh&js%NEHpqSD3cgTl0io0aWXn(*U@kQ1K6u)Y$#wbJv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = config('DEBUG', default=False, cast=bool)
-DEBUG = True
+# DEBUG = True
+DEBUG = os.environ('DEBUG')
 
 # ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())
 ALLOWED_HOSTS = os.environ('ALLOWED_HOSTS')
