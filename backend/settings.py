@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-from decouple import Csv, config
+# from decouple import Csv, config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -15,8 +15,8 @@ SECRET_KEY = '7^My?4eh&js%NEHpqSD3cgTl0io0aWXn(*U@kQ1K6u)Y$#wbJv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = config('DEBUG', default=False, cast=bool)
-# DEBUG = True
-DEBUG = os.environ('DEBUG')
+DEBUG = True
+# DEBUG = os.environ('DEBUG')
 
 # ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())
 ALLOWED_HOSTS = os.environ('ALLOWED_HOSTS')
@@ -111,12 +111,24 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
+if 'RDS_HOSTNAME' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.environ['RDS_DB_NAME'],
+            'USER': os.environ['RDS_USERNAME'],
+            'PASSWORD': os.environ['RDS_PASSWORD'],
+            'HOST': os.environ['RDS_HOSTNAME'],
+            'PORT': os.environ['RDS_PORT'],
+        }
     }
-}
 
 # DATABASES = {
 #     'default': {
