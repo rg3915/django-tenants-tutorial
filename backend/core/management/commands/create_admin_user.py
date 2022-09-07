@@ -19,7 +19,7 @@ class Command(BaseCommand):
             print('Digite -p e informe a senha.')
             return
 
-        if User.objects.filter(username='admin').exists():
+        if User.objects.filter(username='lorem').exists():
             print('admin já existe!')
         else:
-            User.objects.create_superuser('admin', 'admin@email.com', password)
+            User.objects.create_superuser('lorem', 'admin@email.com', password)
