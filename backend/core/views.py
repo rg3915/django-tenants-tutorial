@@ -4,13 +4,13 @@ from backend.crm.models import Customer, Employee
 from backend.product.models import ProductType
 from backend.sale.models import Sale
 
-from django_tenants.utils import schema_context
+# from django_tenants.utils import schema_context
 
 
-@schema_context("public")
-def product_types_all():
+# @schema_context("public")
+# def product_types_all():
 
-    return list(ProductType.objects.all().values())
+#     return list(ProductType.objects.all().values())
 
 
 def index(request):
@@ -19,13 +19,13 @@ def index(request):
     employees = Employee.objects.all()
     sales = Sale.objects.all()
     product_types = ProductType.objects.all()
-    public_product_types = product_types_all()
+    # public_product_types = product_types_all()
 
     context = {
         'customers': customers,
         'employees': employees,
         'sales': sales,
         'product_types': product_types,
-        'public_product_types': public_product_types,
+        'public_product_types': [],
     }
     return render(request, template_name, context)
