@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 
 services:
   app:
@@ -12,23 +12,13 @@ services:
     volumes:
       - .env:/app/.env
       - /tmp:/tmp
-    command: bash -c "gunicorn backend.wsgi:application -b 0.0.0.0:8000"
-    networks:
-      dj-tenants
-
-  nginx:
-    image: nginx
-    hostname: nginx
-    ports:
-      - '8000:8000'
-    volumes:
-      - ./config/nginx:/etc/nginx/conf.d
+    command: bash -c "python manage.py wait_for_db && gunicorn backend.wsgi:application -b 0.0.0.0:8000"
     depends_on:
-      - app
+      - db
     networks:
       - dj-tenants
 
-  database:
+  db:
     container_name: db
     image: postgres:14-alpine
     restart: always
@@ -60,8 +50,20 @@ services:
     networks:
       - dj-tenants
 
+  nginx:
+    image: nginx
+    hostname: nginx
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./config/nginx:/etc/nginx/conf.d
+    depends_on:
+      - app
+    networks:
+      - dj-tenants
+
 volumes:
-  pgdata:  # mesmo nome do volume externo definido na linha 10
+  pgdata:
   pgadmin:
 
 networks:
