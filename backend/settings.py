@@ -18,7 +18,7 @@ SECRET_KEY = '7^My?4eh&js%NEHpqSD3cgTl0io0aWXn(*U@kQ1K6u)Y$#wbJv'
 DEBUG = True
 
 # ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=[], cast=Csv())
-ALLOWED_HOSTS = ['localhost', 'django-tenants-tutorial.eba-8vecxnvc.us-east-1.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['localhost', 'django-tenants-tutorial.us-east-1.elasticbeanstalk.com']
 
 # DEV = config('DEV', default=False, cast=bool)
 DEV = False
