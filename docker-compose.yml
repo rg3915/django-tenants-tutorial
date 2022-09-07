@@ -1,6 +1,33 @@
 version: "3.8"
 
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    hostname: app
+    stdin_open: true
+    expose:
+      - '8000'
+    volumes:
+      - .env:/app/.env
+      - /tmp:/tmp
+    command: bash -c "gunicorn backend.wsgi:application -b 0.0.0.0:8000"
+    networks:
+      dj-tenants
+
+  nginx:
+    image: nginx
+    hostname: nginx
+    ports:
+      - '8000:8000'
+    volumes:
+      - ./config/nginx:/etc/nginx/conf.d
+    depends_on:
+      - app
+    networks:
+      - dj-tenants
+
   database:
     container_name: db
     image: postgres:14-alpine
@@ -14,7 +41,7 @@ services:
       - POSTGRES_USER=postgres  # usuário padrão
       - POSTGRES_DB=db  # necessário porque foi configurado assim no settings
     ports:
-      - 5437:5432  # repare na porta externa 5433
+      - 5437:5432  # repare na porta externa 5437
     networks:
       - dj-tenants
 
