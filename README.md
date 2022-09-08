@@ -1350,3 +1350,7 @@ def employee_create(request):
     # return HttpResponse('OK')
     return redirect('crm:employee_list')
 ```
+
+# Deploy
+
+![](img/docker_04_prod.png)
