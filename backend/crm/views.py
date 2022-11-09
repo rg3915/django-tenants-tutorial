@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 
@@ -51,5 +52,14 @@ def customer_list(request):
 def employee_list(request):
     template_name = 'crm/employee_list.html'
     object_list = Employee.objects.all()
+
+    search = request.GET.get('search')
+    if search:
+        object_list = Employee.objects.filter(
+            Q(user__first_name__icontains=search) |
+            Q(user__last_name__icontains=search) |
+            Q(occupation__icontains=search)
+        )
+
     context = {'object_list': object_list}
     return render(request, template_name, context)

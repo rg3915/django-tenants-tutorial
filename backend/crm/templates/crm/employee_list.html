@@ -7,16 +7,36 @@
     </a>
     <a class="button is-primary" href="{% url 'crm:employee_create' %}">Adicionar</a>
   </h1>
+
+  <div class="columns ml-0">
+    <div class="is-half">
+      <form action="" method="GET">
+        <div class="field has-addons">
+          <div class="control">
+            <input class="input" type="text" name="Search" placeholder="Buscar...">
+          </div>
+          <div class="control">
+            <a class="button is-info">
+              Buscar
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <table class="table">
     <thead>
       <tr>
         <th>Nome</th>
+        <th>Cargo</th>
       </tr>
     </thead>
     <tbody>
       {% for object in object_list %}
         <tr>
           <td>{{ object }}</td>
+          <td>{{ object.occupation|default:"" }}</td>
         </tr>
       {% endfor %}
     </tbody>
